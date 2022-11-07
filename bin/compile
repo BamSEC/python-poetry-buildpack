@@ -35,7 +35,7 @@ fi
 log "Generate requirements.txt with Poetry"
 
 log "Install Poetry"
-curl -sSL https://install.python-poetry.org | python3 | indent
+curl -sSL https://raw.githubusercontent.com/BamSEC/poetry/master/install-poetry.py | python3 - --stderr | indent
 
 log "Add Poetry to the PATH"
 export PATH="/app/.local/bin:$PATH"

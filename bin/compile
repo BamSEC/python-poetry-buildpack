@@ -34,20 +34,16 @@ fi
 
 log "Generate requirements.txt with Poetry"
 
-python3 --version
-type -a python3
 log "Install Poetry"
-curl -sSL https://raw.githubusercontent.com/BamSEC/poetry/master/install-poetry.py | python3 - --stderr | indent
+python3 -m pip install poetry==$POETRY_VERSION
 
-log "Add Poetry to the PATH"
-export PATH="/app/.local/bin:$PATH"
 
 if [ "${POETRY_VERSION:0:3}" = "1.2" ] ; then
     # Allow `poetry export` to work even if we aren't using the
     # Python version that the project will ultimately run in
     log "Force usage of active Python and disable creation of virtualenvs"
-    poetry config virtualenvs.prefer-active-python true | indent
-    poetry config virtualenvs.create false | indent
+    python3 -m poetry config virtualenvs.prefer-active-python true | indent
+    python3 -m poetry config virtualenvs.create false | indent
 fi
 
 REQUIREMENTS_FILE="requirements.txt"
@@ -65,7 +61,7 @@ fi
 
 # pip can't handle vcs & editable dependencies when requiring hashes (https://github.com/pypa/pip/issues/4995)
 # poetry exports local dependencies as editable by default (https://github.com/python-poetry/poetry/issues/897)
-poetry export -f requirements.txt "${EXPORT_PARAMETERS[@]}" -o "$REQUIREMENTS_FILE.orig" | indent
+python3 -m poetry export -f requirements.txt "${EXPORT_PARAMETERS[@]}" -o "$REQUIREMENTS_FILE.orig" | indent
 sed -e 's/^-e //' < "$REQUIREMENTS_FILE.orig" > "$REQUIREMENTS_FILE" && rm "$REQUIREMENTS_FILE.orig"
 
 RUNTIME_FILE="runtime.txt"

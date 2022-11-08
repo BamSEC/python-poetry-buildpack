@@ -34,6 +34,8 @@ fi
 
 log "Generate requirements.txt with Poetry"
 
+python3 --version
+type -a python3
 log "Install Poetry"
 curl -sSL https://raw.githubusercontent.com/BamSEC/poetry/master/install-poetry.py | python3 - --stderr | indent
 
